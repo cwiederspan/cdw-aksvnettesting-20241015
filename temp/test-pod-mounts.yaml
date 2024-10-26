@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{$.Values.guid}}
+spec:
+  containers:
+    - name: noop-container
+      image: <TODO: alpine image>
+      command: ["/bin/sh"]
+      args: ["-c", "sleep 10800"]
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      volumeMounts:
+        {{ $count := (.Values.pvcCount | int) }}
+        {{- range untilStep 0 $count 1 }}
+        - mountPath: "/etc/{{$.Values.guid}}/{{.}}/"
+          name: "{{$.Values.guid}}-{{.}}"
+        {{- end }}
+  restartPolicy: OnFailure
+  volumes:
+    {{ $count := (.Values.pvcCount | int) }}
+    {{- range untilStep 0 $count 1 }}
+    - name: {{$.Values.guid}}-{{.}}
+      persistentVolumeClaim:
+        claimName: {{$.Values.guid}}-{{.}}-pvc
+    {{- end }}

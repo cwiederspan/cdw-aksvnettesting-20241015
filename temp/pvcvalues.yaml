@@ -1,0 +1,3 @@
+guid: <TODO: some generated guid, different for each pod, same as guid in podvalues.yaml>
+pod_uid: <TODO: result of ```kubectl get pods -n r1-spark-jobs <TODO: name of created pod> -o jsonpath='{.metadata.uid}'```>
+pvcCount: 200

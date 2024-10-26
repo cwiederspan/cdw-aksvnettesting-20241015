@@ -1,0 +1,3 @@
+namespace: r1-spark-jobs
+guid: <TODO: some generated guid, different for each pod, same as guid in pvcvalues.yaml>
+pvcCount: 200
